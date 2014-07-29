@@ -1,0 +1,194 @@
+
+<head>
+	<title>PE Q&amp;As</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+	{{> display}}
+</body>
+
+<template name="display">
+	<div class="container">
+		<div class="navbar navbar-inverse">
+			<div class="navbar-inner">
+				<a class="brand" href="/">PE Q&As</a>
+				<ul class="nav">
+					<li class="active"><a href="http://confluence.csgsystems.com/display/PE/Platform+Engineering+Home">Home</a></li>
+					<li><button class="btn btn-primary addQuestion">Ask a Question</button></li>
+				</ul>
+				<div style="float: right">
+				<form class="navbar-form navbar-right" role="search">
+					<div class="form-group">
+						<input type="text" id="searchInput" class="form-control">
+						<button type="submit" class="btn btn-primary search">Search</button>
+					</div>
+				</form>
+					{{> loginButtons align="right"}}
+				</div>
+			</div>
+		</div>
+		{{#if resultsDisplay}}
+			{{> results}}
+		{{/if}}
+		{{#if questionsDisplay}}
+			{{> questions}}
+		{{/if}}
+		{{#if answersDisplay}}
+			{{> answers}}
+		{{/if}}
+		{{> modals}}
+	</div>
+</template>
+
+<template name="modals">
+	{{#if showCommentDialog}}
+		{{> add_comment}}
+	{{/if}}
+	{{#if showAnswerDialog}}
+		{{> add_answer}}
+	{{/if}}
+	{{#if showQuestionDialog}}
+		{{> add_question}}
+	{{/if}}
+</template>
+
+<template name="results">
+	<div class="tabbable pull-left">
+		<ul class="nav nav-pills">
+			<li class="active"><a href="#tab4" data-toggle="tab">Results for: {{terms}}</a></li>
+		</ul>
+	</div>
+	<div class="tabbable pull-right">
+		<ul class="nav nav-pills">
+			<li class="mostVotes active"><a href="#tab1" data-toggle="tab">most votes</a></li>
+			<li class="mostViews"><a href="#tab2" data-toggle="tab">most views</a></li>
+			<li class="mostRecent"><a href="#tab3" data-toggle="tab">most recent</a></li>
+		</ul>
+	</div>
+	<table class="table table-hover"><tbody>
+		{{#each result}}
+		<tr><td class="title" onclick="location.href='/question/{{_id}}';">
+			<div class="row">
+				<div class="span1 text-center muted">
+					<h5>{{votes}}<br />votes</h5>
+				</div>
+				<div class="span1 text-center text-error">
+					<h5>{{answers}}<br />answers</h5>
+				</div>
+				<div class="span1 text-center">
+					<h5>{{views}}<br />views</h5>
+				</div>
+				<div class="span8">
+					<h4>{{title}}</h4>
+					<p class="text-right"><small>Asked by {{createdByEmail}} on {{date}}</small></p>
+				</div>
+			</div>
+		</td></tr>
+		{{/each}}
+	</tbody></table>
+</template>
+
+<template name="questions">
+	<div class="tabbable pull-right">
+		<ul class="nav nav-pills">
+			<li class="mostVotes active"><a href="#tab1" data-toggle="tab">most votes</a></li>
+			<li class="mostViews"><a href="#tab2" data-toggle="tab">most views</a></li>
+			<li class="mostRecent"><a href="#tab3" data-toggle="tab">most recent</a></li>
+		</ul>
+	</div>
+	<table class="table table-hover"><tbody>
+		{{#each question}}
+		<tr><td class="title" onclick="location.href='/question/{{_id}}';">
+			<div class="row">
+				<div class="span1 text-center muted">
+					<h5>{{votes}}<br />votes</h5>
+				</div>
+				<div class="span1 text-center text-error">
+					<h5>{{answers}}<br />answers</h5>
+				</div>
+				<div class="span1 text-center">
+					<h5>{{views}}<br />views</h5>
+				</div>
+				<div class="span8">
+					<h4>{{title}}</h4>
+					<p class="text-right"><small>Asked by {{createdByEmail}} on {{date}}</small></p>
+				</div>
+			</div>
+		</td></tr>
+		{{/each}}
+	</tbody></table>
+</template>
+
+<template name="answers">
+	{{#each question}}
+		<div class="tabbable pull-left">
+			<button class="btn btn-primary addAnswer">Add an Answer</button>
+		</div>
+		<br /><br />
+		<div class="row">
+			<div class="span12">
+				<h2 style="border-bottom: 1px #bdbdbd solid;">{{title}}</h2>
+			</div>
+		</div>
+		<div class="row">
+			<div class="span1 text-center">
+				<div id="questions-arrow-up" class="triangle-up"></div>
+				<h3 align="text-align: center; width: 25px;" style="max-width: 40px;">{{votes}}</h3>
+				<div id="questions-arrow-down" class="triangle-down"></div>
+			</div>
+			<div class="span11">
+				<p class="text-left">{{{content}}}</p>
+				<p class="text-right"> - asked by {{createdByEmail}} on {{date}}</p>
+				<p class="text-left">
+					{{#each tag.tags}}
+						<button type="button" class="btn btn-default btn-xs tag-search" value="{{this}}">{{{this}}}</button>
+					{{/each}}
+				</p>
+				{{#if canEdit}}
+					<p class="text-left"><small><a class="editQuestion">edit</a> | <a class="deleteQuestion">delete</a></small></p>
+				{{/if}}
+				{{> comments}}
+			</div>
+		</div>
+			<div class="tabbable pull-right">
+				<ul class="nav nav-pills">
+					<li class="mostVotes active"><a href="#tab1" data-toggle="tab">most votes</a></li>
+					<li class="mostRecent"><a href="#tab3" data-toggle="tab">most recent</a></li>
+				</ul>
+			</div>
+	<h2 style="border-bottom: 1px #bdbdbd solid;">{{answers}} Answers</h2>
+	{{/each}}
+	{{#each answer}}
+		<div class="row">
+			<div class="span1 text-center">
+				<div id="answers-arrow-up" class="triangle-up"></div>
+				<h3 align="text-align: center; width: 55%;" style="max-width: 40px;">{{votes}}</h3>
+				<div id="answers-arrow-down" class="triangle-down"></div>
+			</div>
+			<div class="span11">
+				<p class="text-left">{{{content}}}</p>
+				<p class="text-right"> - answered by {{createdByEmail}} on {{date}}</p>
+				{{#if canEdit}}
+					<p class="text-left"><small><a class="editAnswer">edit</a> | <a class="deleteAnswer">delete</a></small></p>
+				{{/if}}
+				{{> comments}}
+			</div>
+		</div>
+		<hr>
+	{{/each}}
+</template>
+
+<template name="comments">
+	<table class="table table-hover"><tbody>
+		{{#each comment}}
+			<tr><td><small>{{{content}}} - {{createdByEmail}} &nbsp;
+			{{#if canEdit}}
+				<a class="editComment">edit</a> | <a class="deleteComment">delete</a>
+			{{/if}}
+			</small></td></tr>
+		{{/each}}
+		<tr><td><a href="javascript:doNothing();" class="addComment"><b>+</b> <small>add a comment</small></a></td></tr>
+	</tbody></table>
+</template>
+

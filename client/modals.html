@@ -1,0 +1,99 @@
+
+<template name="add_question">
+	<div class="mask"> </div>
+	<div class="modal">
+		<div class="modal-header">
+			<button type="button" class="close cancel">&times;</button>
+			{{#if toggleEditQuestion}}
+				<h3>Edit a Question</h3>
+			{{else}}
+				<h3>Ask a Question</h3>
+			{{/if}}
+		</div>
+		{{#if currentUser}}
+			<div class="modal-body">
+			{{#if toggleEditQuestion}}
+				{{#each editQuestion}}
+					<input id="add-title" class="span5" type="text" value="{{title}}">
+					<textarea id="add-content" class="span5" rows="7">{{{content}}}</textarea>
+					<input type="text" id="add-tags" class="span5" value="{{tags}}">
+				{{/each}}
+			{{else}}
+				<input id="add-title" class="span5" type="text" placeholder="What's your specific technical question? Please be specific.">
+				<textarea id="add-content" class="span5" rows="7"></textarea>
+				<input type="text" id="add-tags" class="span5" placeholder="Add tags here...">
+			{{/if}}
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn cancel">Cancel</a>
+				{{#if toggleEditQuestion}}
+					<a href="#" class="btn btn-primary edit">Edit your Question</a>
+				{{else}}
+					<a href="#" class="btn btn-primary save">Post your Question</a>
+				{{/if}}
+			</div>
+		{{else}}
+			<div class="alert alert-danger" role="alert"><b>Oh snap!</b> You must sign in to ask a question.</div>
+		{{/if}}
+	</div>
+</template>
+
+<template name="add_answer">
+	<div class="mask"> </div>
+	<div class="modal">
+		<div class="modal-header">
+			<button type="button" class="close cancel">&times;</button>
+			{{#if toggleEditAnswer}}
+				<h3>Edit an Answer</h3>
+			{{else}}
+				<h3>Add an Answer</h3>
+			{{/if}}
+		</div>
+		{{#if currentUser}}
+			<div class="modal-body">
+				<label>Answer</label>
+				<textarea id="add-answer" class="add-answer span5" rows="7">{{#each editAnswer}}{{{content}}}{{/each}}</textarea>
+			</div>
+			<div class="modal-footer">
+				<a class="btn cancel">Cancel</a>
+				{{#if toggleEditAnswer}}
+					<a class="btn btn-primary edit">Edit your Answer</a>
+				{{else}}
+					<a class="btn btn-primary save">Post your Answer</a>
+				{{/if}}
+			</div>
+		{{else}}
+			<div class="alert alert-danger" role="alert"><b>Oh snap!</b> You must sign in to add an answer.</div>
+		{{/if}}	
+	</div>
+</template>
+
+<template name="add_comment">
+	<div class="mask"> </div>
+	<div class="modal">
+		<div class="modal-header">
+			<button type="button" class="close cancel">&times;</button>
+			{{#if toggleEditComment}}
+				<h3>Edit a Comment</h3>
+			{{else}}
+				<h3>Add a Comment</h3>
+			{{/if}}
+		</div>
+		{{#if currentUser}}
+			<div class="modal-body">
+				<label>Comment</label>
+				<textarea id="add-comment" class="add-comment span5">{{#each editComment}}{{content}}{{/each}}</textarea>
+			</div>
+			<div class="modal-footer">
+				<a class="btn cancel">Cancel</a>
+				{{#if toggleEditComment}}
+					<a class="btn btn-primary edit">Edit your Comment</a>
+				{{else}}
+					<a class="btn btn-primary save">Post your Comment</a>
+				{{/if}}
+			</div>
+		{{else}}
+			<div class="alert alert-danger" role="alert"><b>Oh snap!</b> You must sign in to add a comment.</div>
+		{{/if}}		
+	</div>
+</template>
