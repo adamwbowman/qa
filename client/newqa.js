@@ -22,7 +22,11 @@ Session.setDefault('editQuestion', false);
 Session.setDefault('editAnswer', false);
 Session.setDefault('editComment', false);
 
-
+//////////////////////////////////////////////////////////////////////////////////
+// Subscriptions...
+Meteor.subscribe('theQuestions');
+Meteor.subscribe('theAnswers');
+Meteor.subscribe('theComments');
 
 //////////////////////////////////////////////////////////////////////////////////
 // Display...
