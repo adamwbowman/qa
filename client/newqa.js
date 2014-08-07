@@ -420,4 +420,3 @@ var app = new Router;
 Meteor.startup(function () {
 	Backbone.history.start({pushState: true});
 });
-

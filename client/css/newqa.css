@@ -26,3 +26,33 @@
 	border-top: 20px solid gray;
 }
 
+td.title { 
+	cursor: pointer; 
+	cursor: hand; 
+}
+
+td.addComment { 
+	cursor: pointer; 
+	cursor: hand; 
+	color: #339bb9;
+}
+
+div#questions-arrow-up.triangle-up { 
+	cursor: pointer; 
+	cursor: hand; 
+}
+
+div#questions-arrow-down.triangle-down { 
+	cursor: pointer; 
+	cursor: hand; 
+}
+
+div#answers-arrow-up.triangle-up { 
+	cursor: pointer; 
+	cursor: hand; 
+}
+
+div#answers-arrow-down.triangle-down { 
+	cursor: pointer; 
+	cursor: hand; 
+}

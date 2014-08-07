@@ -11,4 +11,4 @@ If you're interested in working on this project, first grab Meteor here:
 
 Then clone the repo.
 
-From Meteor.com: "Meteor is an open-source platform for building top-quality web apps in a fraction of the time, whether you're an expert developer or just getting started.""
+From Meteor.com: "Meteor is an open-source platform for building top-quality web apps in a fraction of the time, whether you're an expert developer or just getting started."
