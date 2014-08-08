@@ -34,7 +34,6 @@ td.title {
 td.addComment { 
 	cursor: pointer; 
 	cursor: hand; 
-	color: #339bb9;
 }
 
 div#questions-arrow-up.triangle-up { 
@@ -53,6 +52,48 @@ div#answers-arrow-up.triangle-up {
 }
 
 div#answers-arrow-down.triangle-down { 
+	cursor: pointer; 
+	cursor: hand; 
+}
+
+a.editQuestion:hover {
+	text-decoration: underline;
+	cursor: pointer; 
+	cursor: hand; 
+}
+
+a.deleteQuestion:hover {
+	text-decoration: underline;
+	cursor: pointer; 
+	cursor: hand; 
+}
+
+a.editAnswer:hover {
+	text-decoration: underline;
+	cursor: pointer; 
+	cursor: hand; 
+}
+
+a.deleteAnswer:hover {
+	text-decoration: underline;
+	cursor: pointer; 
+	cursor: hand; 
+}
+
+a.editComment:hover {
+	text-decoration: underline;
+	cursor: pointer; 
+	cursor: hand; 
+}
+
+a.deleteComment:hover {
+	text-decoration: underline;
+	cursor: pointer; 
+	cursor: hand; 
+}
+
+a.addComment:hover {
+	text-decoration: underline;
 	cursor: pointer; 
 	cursor: hand; 
 }
