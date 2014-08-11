@@ -3,8 +3,8 @@
 // Session Management...
 // Pages
 Session.setDefault('resultsDisplay', false);
-Session.setDefault('questionsDisplay', true);
-Session.setDefault('answersDisplay', false);
+	//Session.setDefault('questionsDisplay', true);
+	//Session.setDefault('answersDisplay', false);
 // Variables
 Session.setDefault('titleDisplay', 'PE Q&amp;As');
 // Modal Dialogs
@@ -33,6 +33,7 @@ Meteor.subscribe('theComments');
 //////////////////////////////////////////////////////////////////////////////////
 // Display...
 Template.display.helpers({
+/*
 	resultsDisplay: function () {
 		return Session.get('resultsDisplay');
 	},	
@@ -42,6 +43,7 @@ Template.display.helpers({
 	answersDisplay: function () {
 		return Session.get('answersDisplay');
 	},
+*/
 	titleDisplay: function () {
 		return Session.get('titleDisplay');
 	}
@@ -161,9 +163,11 @@ Template.answers.events({
 	},
 	'click .tag-search': function (evt) {
 		Session.set('searchInput', this.toString());
+		/*
 		Session.set('resultsDisplay', true);
 		Session.set('answersDisplay', false);
 		Session.set('questionsDisplay', false);
+		*/
 	},
 	'click #answers-arrow-up': function (evt) {
 		var userId = Meteor.userId();
@@ -419,6 +423,22 @@ var tagsString = function (tags) {
 
 //////////////////////////////////////////////////////////////////////////////////
 // Router
+Router.map(function() {
+	this.route('questions', {path: '/'});
+	this.route('answers', { 
+		path: '/question/:questionId',
+		data: function() {
+			Questions.update(this.params.questionId, {$inc: {views: 1}});
+			Session.set('questionId', this.params.questionId); 
+		}
+	});
+
+});
+
+
+
+
+/*
 var Router = Backbone.Router.extend({
 	routes: {
 		"/": "home",
@@ -441,3 +461,4 @@ var app = new Router;
 Meteor.startup(function () {
 	Backbone.history.start({pushState: true});
 });
+*/
