@@ -140,10 +140,15 @@
 			<div class="span11">
 				<p class="text-left">{{{content}}}</p>
 				<p class="text-right"> - asked by {{createdByEmail}} on {{date}}</p>
-				<p class="text-left">
+				<p class="text-right">
 					{{#each tag.tags}}
 						<button type="button" class="btn btn-default btn-xs tag-search" value="{{this}}">{{{this}}}</button>
 					{{/each}}
+					<button type="button" class="btn btn-info btn">
+						
+						<span class="icon-star icon-white"></span> Singleview
+
+					</button>
 				</p>
 				{{#if canEdit}}
 					<p class="text-left"><small><a class="editQuestion">edit</a> | <a class="deleteQuestion">delete</a></small></p>

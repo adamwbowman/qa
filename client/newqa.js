@@ -258,6 +258,11 @@ Template.add_question.events({
 			createdByEmail: getUserEmail(),
 			voters: [],
 			tags: tagsString($('#add-tags').val()),
+			SV: $('#cbSV').prop('checked'),
+			WBMS: $('#cbWBMS').prop('checked'),
+			TSM: $('#cbTSM').prop('checked'),
+			ASCADE: $('#cbASCADE').prop('checked'),
+			ICP: $('#cbICP').prop('checked'),
 			date: moment().format('MMMM Do YYYY, h:mm:ss a')
 			});
 		Session.set('showQuestionDialog', false);
@@ -269,6 +274,11 @@ Template.add_question.events({
 			title: $('#add-title').val(),
 			content: $('#add-content').val(),
 			tags: tagsString($('#add-tags').val()),
+			SV: $('#cbSV').prop('checked'),
+			WBMS: $('#cbWBMS').prop('checked'),
+			TSM: $('#cbTSM').prop('checked'),
+			ASCADE: $('#cbASCADE').prop('checked'),
+			ICP: $('#cbICP').prop('checked'),
 			date: moment().format('MMMM Do YYYY, h:mm:ss a')
 			}});
 		Session.set('showQuestionDialog', false);
@@ -381,16 +391,22 @@ Template.add_comment.events({
 var checkCanUserEdit = function (item) {
 	return item.createdBy === Meteor.userId();
 };
-var getUserEmail = function (item) {
-	var user = Meteor.user();
-	return user.emails[0].address;
-};
 var checkCanUserVote = function (votersFind, userId) {
 	if (_.contains(votersFind.voters, userId) || (userId === null)) {
 		return false;			
 	} else {
 		return true;				
 	}
+};
+var checkCheckboxStatus = function (item) {
+	console.log(item);
+//	if (item === true) {
+//		return checked;
+//	}
+};
+var getUserEmail = function (item) {
+	var user = Meteor.user();
+	return user.emails[0].address;
 };
 var tagsString = function (tags) {
 	var tagsArray = [];

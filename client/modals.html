@@ -17,25 +17,40 @@
 					<input id="add-title" class="span5" type="text" value="{{title}}">
 					<textarea id="add-content" class="span5" rows="7">{{{content}}}</textarea>
 					<input type="text" id="add-tags" class="span5" value="{{tags}}">
+					<label class="checkbox inline">
+						<input type="checkbox" id="cbSV" checked="{{SV}}"> Singleview
+					</label>
+					<label class="checkbox inline">
+						<input type="checkbox" id="cbWBMS" checked="{{WBMS}}"> WBMS
+					</label>
+					<label class="checkbox inline">
+						<input type="checkbox" id="cbTSM" checked="{{TSM}}"> TSM
+					</label>
+					<label class="checkbox inline">  
+						<input type="checkbox" id="cbASCADE" checked="{{ASCADE}}"> Ascade (Route)
+					</label>
+					<label class="checkbox inline">
+						<input type="checkbox" id="cbICP" checked="{{ICP}}"> Volubill (ICP)
+					</label>
 				{{/each}}
 			{{else}}
 				<input id="add-title" class="span5" type="text" placeholder="What's your specific technical question? Please be specific.">
 				<textarea id="add-content" class="span5" rows="7"></textarea>
 				<input type="text" id="add-tags" class="span5" placeholder="Add tags here...">
 				<label class="checkbox inline">
-					<input type="checkbox" id="inlineCheckbox1" value="SV"> Singleview
+					<input type="checkbox" id="cbSV"> Singleview
 				</label>
 				<label class="checkbox inline">
-					<input type="checkbox" id="inlineCheckbox2" value="WBMS"> WBMS
+					<input type="checkbox" id="cbWBMS"> WBMS
 				</label>
 				<label class="checkbox inline">
-					<input type="checkbox" id="inlineCheckbox3" value="TSM"> TSM
+					<input type="checkbox" id="cbTSM"> TSM
 				</label>
 				<label class="checkbox inline">  
-					<input type="checkbox" id="inlineCheckbox1" value="ASCADE"> Ascade (Route)
+					<input type="checkbox" id="cbASCADE"> Ascade (Route)
 				</label>
 				<label class="checkbox inline">
-					<input type="checkbox" id="inlineCheckbox2" value="ICP"> Volubill (ICP)
+					<input type="checkbox" id="cbICP"> Volubill (ICP)
 				</label>
 			{{/if}}
 			</div>
