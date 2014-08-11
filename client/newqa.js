@@ -5,6 +5,8 @@
 Session.setDefault('resultsDisplay', false);
 Session.setDefault('questionsDisplay', true);
 Session.setDefault('answersDisplay', false);
+// Variables
+Session.setDefault('titleDisplay', 'PE Q&amp;As');
 // Modal Dialogs
 Session.setDefault('showQuestionDialog', false);
 Session.setDefault('showAnswerDialog', false);
@@ -39,6 +41,9 @@ Template.display.helpers({
 	},
 	answersDisplay: function () {
 		return Session.get('answersDisplay');
+	},
+	titleDisplay: function () {
+		return Session.get('titleDisplay');
 	}
 });
 // Events
