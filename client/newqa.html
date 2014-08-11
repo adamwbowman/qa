@@ -4,11 +4,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
-<body>
+<body></body>
 
-</body>
-
-<template name="navBar">
+<template name="navbar">
 	<div class="container">
 		<div class="navbar navbar-inverse">
 			<div class="navbar-inner">
@@ -28,39 +26,6 @@
 				</div>
 			</div>
 		</div>
-		{{> modals}}
-	</div>
-</template>
-
-<template name="display">
-	<div class="container">
-		<div class="navbar navbar-inverse">
-			<div class="navbar-inner">
-				<a class="brand" href="/">{{{titleDisplay}}}</a>
-				<ul class="nav">
-					<li class="active"><a href="http://confluence.csgsystems.com/display/PE/Platform+Engineering+Home">Home</a></li>
-					<li><button class="btn btn-primary addQuestion">Ask a Question</button></li>
-				</ul>
-				<div style="float: right">
-				<form class="navbar-form navbar-right" role="search">
-					<div class="form-group">
-						<input type="text" id="searchInput" class="form-control">
-						<button type="submit" class="btn btn-primary search">Search</button>
-					</div>
-				</form>
-					{{> loginButtons align="right"}}
-				</div>
-			</div>
-		</div>
-		{{#if resultsDisplay}}
-			{{> results}}
-		{{/if}}
-		{{#if questionsDisplay}}
-			{{> questions}}
-		{{/if}}
-		{{#if answersDisplay}}
-			{{> answers}}
-		{{/if}}
 		{{> modals}}
 	</div>
 </template>
@@ -77,44 +42,8 @@
 	{{/if}}
 </template>
 
-<template name="results">
-	<div class="tabbable pull-left">
-		<ul class="nav nav-pills">
-			<li class="active"><a href="#tab4" data-toggle="tab">Results for: {{terms}}</a></li>
-		</ul>
-	</div>
-	<div class="tabbable pull-right">
-		<ul class="nav nav-pills">
-			<li class="mostVotes active"><a href="#tab1" data-toggle="tab">most votes</a></li>
-			<li class="mostViews"><a href="#tab2" data-toggle="tab">most views</a></li>
-			<li class="mostRecent"><a href="#tab3" data-toggle="tab">most recent</a></li>
-		</ul>
-	</div>
-	<table class="table table-hover"><tbody>
-		{{#each result}}
-		<tr><td class="title" onclick="location.href='/question/{{_id}}';">
-			<div class="row">
-				<div class="span1 text-center muted">
-					<h5>{{votes}}<br />votes</h5>
-				</div>
-				<div class="span1 text-center text-error">
-					<h5>{{answers}}<br />answers</h5>
-				</div>
-				<div class="span1 text-center">
-					<h5>{{views}}<br />views</h5>
-				</div>
-				<div class="span8">
-					<h4>{{title}}</h4>
-					<p class="text-right"><small>Asked by {{createdByEmail}} on {{date}}</small></p>
-				</div>
-			</div>
-		</td></tr>
-		{{/each}}
-	</tbody></table>
-</template>
-
 <template name="questions">
-	{{> navBar}}
+	{{> navbar}}
 	<div class="container">
 		<div class="tabbable pull-right">
 			<ul class="nav nav-pills">
@@ -148,7 +77,7 @@
 </template>
 
 <template name="answers">
-	{{> navBar}}
+	{{> navbar}}
 	<div class="container">
 		{{#each question}}
 		<div class="tabbable pull-left">
@@ -234,6 +163,42 @@
 		</small></td></tr>
 		{{/each}}	
 		<tr><td class="addComment"><b>+</b> <small><a class="addComment">add a comment</a></small></td></tr>
+	</tbody></table>
+</template>
+
+<template name="results">
+	<div class="tabbable pull-left">
+		<ul class="nav nav-pills">
+			<li class="active"><a href="#tab4" data-toggle="tab">Results for: {{terms}}</a></li>
+		</ul>
+	</div>
+	<div class="tabbable pull-right">
+		<ul class="nav nav-pills">
+			<li class="mostVotes active"><a href="#tab1" data-toggle="tab">most votes</a></li>
+			<li class="mostViews"><a href="#tab2" data-toggle="tab">most views</a></li>
+			<li class="mostRecent"><a href="#tab3" data-toggle="tab">most recent</a></li>
+		</ul>
+	</div>
+	<table class="table table-hover"><tbody>
+		{{#each result}}
+		<tr><td class="title" onclick="location.href='/question/{{_id}}';">
+			<div class="row">
+				<div class="span1 text-center muted">
+					<h5>{{votes}}<br />votes</h5>
+				</div>
+				<div class="span1 text-center text-error">
+					<h5>{{answers}}<br />answers</h5>
+				</div>
+				<div class="span1 text-center">
+					<h5>{{views}}<br />views</h5>
+				</div>
+				<div class="span8">
+					<h4>{{title}}</h4>
+					<p class="text-right"><small>Asked by {{createdByEmail}} on {{date}}</small></p>
+				</div>
+			</div>
+		</td></tr>
+		{{/each}}
 	</tbody></table>
 </template>
 

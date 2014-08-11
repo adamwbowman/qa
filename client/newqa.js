@@ -3,8 +3,6 @@
 // Session Management...
 // Pages
 Session.setDefault('resultsDisplay', false);
-	//Session.setDefault('questionsDisplay', true);
-	//Session.setDefault('answersDisplay', false);
 // Variables
 Session.setDefault('titleDisplay', 'PE Q&amp;As');
 // Modal Dialogs
@@ -31,25 +29,14 @@ Meteor.subscribe('theAnswers');
 Meteor.subscribe('theComments');
 
 //////////////////////////////////////////////////////////////////////////////////
-// Display...
-Template.display.helpers({
-/*
-	resultsDisplay: function () {
-		return Session.get('resultsDisplay');
-	},	
-	questionsDisplay: function () {
-		return Session.get('questionsDisplay');
-	},
-	answersDisplay: function () {
-		return Session.get('answersDisplay');
-	},
-*/
+// NavBar...
+Template.navbar.helpers({
 	titleDisplay: function () {
 		return Session.get('titleDisplay');
 	}
 });
 // Events
-Template.display.events({
+Template.navbar.events({
 	'click .addQuestion': function () {
 		Session.set('showQuestionDialog', true);
 	},
@@ -163,11 +150,6 @@ Template.answers.events({
 	},
 	'click .tag-search': function (evt) {
 		Session.set('searchInput', this.toString());
-		/*
-		Session.set('resultsDisplay', true);
-		Session.set('answersDisplay', false);
-		Session.set('questionsDisplay', false);
-		*/
 	},
 	'click #answers-arrow-up': function (evt) {
 		var userId = Meteor.userId();
@@ -271,7 +253,7 @@ Template.add_question.events({
 			});
 		Session.set('showQuestionDialog', false);
 		Session.set('questionId', null);
-		location.href = '/';
+		Router.go('questions');
 	},
 	'click .edit': function (evt) {
 		Questions.update(Session.get('questionId'), {$set: {
@@ -424,7 +406,9 @@ var tagsString = function (tags) {
 //////////////////////////////////////////////////////////////////////////////////
 // Router
 Router.map(function() {
-	this.route('questions', {path: '/'});
+	this.route('questions', {
+		path: '/'
+	});
 	this.route('answers', { 
 		path: '/question/:questionId',
 		data: function() {
@@ -432,33 +416,7 @@ Router.map(function() {
 			Session.set('questionId', this.params.questionId); 
 		}
 	});
-
 });
 
 
 
-
-/*
-var Router = Backbone.Router.extend({
-	routes: {
-		"/": "home",
-		"question/:questionId": "question",
-	},
-	home: function () {
-		Session.set('resultsDisplay', false);
-		Session.set('answersDisplay', false);
-		Session.set('questionsDisplay', true);
-	},
-	question: function (questionId) {
-		Session.set('resultsDisplay', false);
-		Session.set('questionsDisplay', false);
-		Session.set('answersDisplay', true);
-		Session.set('questionId', questionId);
-		Questions.update(questionId, {$inc: {views: 1}});
-	},
-});
-var app = new Router;
-Meteor.startup(function () {
-	Backbone.history.start({pushState: true});
-});
-*/
