@@ -44,38 +44,8 @@ Template.navbar.events({
 		evt.preventDefault();
 		Session.set('searchInput', $('#searchInput').val());
 		Router.go('results');
-		//Session.set('resultsDisplay', true);
-		//Session.set('answersDisplay', false);
-		//Session.set('questionsDisplay', false);
 	}
 });
-
-
-//////////////////////////////////////////////////////////////////////////////////
-// Results
-Template.results.helpers({
-	result: function () {
-		return Questions.find({ $or: [ {tags: Session.get('searchInput')}, {content: { $regex: Session.get('searchInput') }} ]}, {sort: Session.get('sortOrder')});
-	},
-	terms: function () {
-		return Session.get('searchInput');
-	}
-});
-// Events
-Template.results.events({
-	'click .mostVotes': function (evt) {
-		Session.set('sortOrder', {'votes': -1});
-	},
-	'click .mostViews': function (evt) {
-		Session.set('sortOrder', {'views': -1});
-	},
-	'click .mostRecent': function (evt) {
-		Session.set('sortOrder', {'date': -1});
-	}
-});
-Template.results.rendered = function() {
-	console.log('results rendered');
-}; 
 
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -147,10 +117,12 @@ Template.answers.events({
 	},
 	'click .deleteQuestion': function (evt) {
 		Questions.remove({_id: this._id});
-		location.href = '/';
+		Router.go('questions');
 	},
 	'click .tag-search': function (evt) {
+		console.log(this.toString());
 		Session.set('searchInput', this.toString());
+		Router.go('results');
 	},
 	'click #answers-arrow-up': function (evt) {
 		var userId = Meteor.userId();
@@ -214,6 +186,33 @@ Template.comments.events({
 		Comments.remove({_id: this._id});
 	}
 });
+
+
+//////////////////////////////////////////////////////////////////////////////////
+// Results
+Template.results.helpers({
+	result: function () {
+		return Questions.find({ $or: [ {tags: Session.get('searchInput')}, {content: { $regex: Session.get('searchInput') }} ]}, {sort: Session.get('sortOrder')});
+	},
+	terms: function () {
+		return Session.get('searchInput');
+	}
+});
+// Events
+Template.results.events({
+	'click .mostVotes': function (evt) {
+		Session.set('sortOrder', {'votes': -1});
+	},
+	'click .mostViews': function (evt) {
+		Session.set('sortOrder', {'views': -1});
+	},
+	'click .mostRecent': function (evt) {
+		Session.set('sortOrder', {'date': -1});
+	}
+});
+Template.results.rendered = function() {
+	console.log('results rendered');
+}; 
 
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -385,12 +384,6 @@ var checkCanUserVote = function (votersFind, userId) {
 		return true;				
 	}
 };
-var checkCheckboxStatus = function (item) {
-	console.log(item);
-//	if (item === true) {
-//		return checked;
-//	}
-};
 var getUserEmail = function (item) {
 	var user = Meteor.user();
 	return user.emails[0].address;
@@ -418,7 +411,7 @@ Router.map(function() {
 		}
 	});
 	this.route('results', {
-		path: '/'
+		path: '/results'
 	});
 });
 
