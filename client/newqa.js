@@ -2,7 +2,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 // Session Management...
 // Pages
-Session.setDefault('resultsDisplay', false);
+	//Session.setDefault('resultsDisplay', false);
 // Variables
 Session.setDefault('titleDisplay', 'PE Q&amp;As');
 // Modal Dialogs
@@ -43,9 +43,10 @@ Template.navbar.events({
 	'click .search': function (evt) {
 		evt.preventDefault();
 		Session.set('searchInput', $('#searchInput').val());
-		Session.set('resultsDisplay', true);
-		Session.set('answersDisplay', false);
-		Session.set('questionsDisplay', false);
+		Router.go('results');
+		//Session.set('resultsDisplay', true);
+		//Session.set('answersDisplay', false);
+		//Session.set('questionsDisplay', false);
 	}
 });
 
@@ -415,6 +416,9 @@ Router.map(function() {
 			Questions.update(this.params.questionId, {$inc: {views: 1}});
 			Session.set('questionId', this.params.questionId); 
 		}
+	});
+	this.route('results', {
+		path: '/'
 	});
 });
 

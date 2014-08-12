@@ -167,38 +167,41 @@
 </template>
 
 <template name="results">
-	<div class="tabbable pull-left">
-		<ul class="nav nav-pills">
-			<li class="active"><a href="#tab4" data-toggle="tab">Results for: {{terms}}</a></li>
-		</ul>
+	{{> navbar}}
+	<div class="container">
+		<div class="tabbable pull-left">
+			<ul class="nav nav-pills">
+				<li class="active"><a href="#tab4" data-toggle="tab">Results for: {{terms}}</a></li>
+			</ul>
+		</div>
+		<div class="tabbable pull-right">
+			<ul class="nav nav-pills">
+				<li class="mostVotes active"><a href="#tab1" data-toggle="tab">most votes</a></li>
+				<li class="mostViews"><a href="#tab2" data-toggle="tab">most views</a></li>
+				<li class="mostRecent"><a href="#tab3" data-toggle="tab">most recent</a></li>
+			</ul>
+		</div>
+		<table class="table table-hover"><tbody>
+			{{#each result}}
+			<tr><td class="title" onclick="location.href='/question/{{_id}}';">
+				<div class="row">
+					<div class="span1 text-center muted">
+						<h5>{{votes}}<br />votes</h5>
+					</div>
+					<div class="span1 text-center text-error">
+						<h5>{{answers}}<br />answers</h5>
+					</div>
+					<div class="span1 text-center">
+						<h5>{{views}}<br />views</h5>
+					</div>
+					<div class="span8">
+						<h4>{{title}}</h4>
+						<p class="text-right"><small>Asked by {{createdByEmail}} on {{date}}</small></p>
+					</div>
+				</div>
+			</td></tr>
+			{{/each}}
+		</tbody></table>
 	</div>
-	<div class="tabbable pull-right">
-		<ul class="nav nav-pills">
-			<li class="mostVotes active"><a href="#tab1" data-toggle="tab">most votes</a></li>
-			<li class="mostViews"><a href="#tab2" data-toggle="tab">most views</a></li>
-			<li class="mostRecent"><a href="#tab3" data-toggle="tab">most recent</a></li>
-		</ul>
-	</div>
-	<table class="table table-hover"><tbody>
-		{{#each result}}
-		<tr><td class="title" onclick="location.href='/question/{{_id}}';">
-			<div class="row">
-				<div class="span1 text-center muted">
-					<h5>{{votes}}<br />votes</h5>
-				</div>
-				<div class="span1 text-center text-error">
-					<h5>{{answers}}<br />answers</h5>
-				</div>
-				<div class="span1 text-center">
-					<h5>{{views}}<br />views</h5>
-				</div>
-				<div class="span8">
-					<h4>{{title}}</h4>
-					<p class="text-right"><small>Asked by {{createdByEmail}} on {{date}}</small></p>
-				</div>
-			</div>
-		</td></tr>
-		{{/each}}
-	</tbody></table>
 </template>
 
