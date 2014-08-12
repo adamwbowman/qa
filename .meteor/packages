@@ -11,3 +11,4 @@ accounts-ui
 bootstrap
 jquery
 backbone
+iron-router
