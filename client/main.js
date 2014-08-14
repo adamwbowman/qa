@@ -1,8 +1,6 @@
 
 //////////////////////////////////////////////////////////////////////////////////
 // Session Management...
-// Pages
-	//Session.setDefault('resultsDisplay', false);
 // Variables
 Session.setDefault('titleDisplay', 'PE Q&amp;As');
 // Modal Dialogs
@@ -120,7 +118,6 @@ Template.answers.events({
 		Router.go('questions');
 	},
 	'click .tag-search': function (evt) {
-		console.log(this.toString());
 		Session.set('searchInput', this.toString());
 		Router.go('results');
 	},
@@ -395,25 +392,6 @@ var tagsString = function (tags) {
 	});
 	return _.uniq(tagsArray);
 };
-
-
-//////////////////////////////////////////////////////////////////////////////////
-// Router
-Router.map(function() {
-	this.route('questions', {
-		path: '/'
-	});
-	this.route('answers', { 
-		path: '/question/:questionId',
-		data: function() {
-			Questions.update(this.params.questionId, {$inc: {views: 1}});
-			Session.set('questionId', this.params.questionId); 
-		}
-	});
-	this.route('results', {
-		path: '/results'
-	});
-});
 
 
 
