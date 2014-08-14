@@ -1,8 +1,11 @@
-# PEQA.js Readme
+# Q&As Readme
 
 
 ## Q&As
 Q&As is a stackoverflow knock-off written on top of Meteor.
+
+Try a demo here: http://peqa.meteor.com
+
 If you're interested in working on this project, first grab Meteor here:
 
 ```javascript
