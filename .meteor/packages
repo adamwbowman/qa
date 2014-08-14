@@ -10,5 +10,4 @@ accounts-password
 accounts-ui
 bootstrap
 jquery
-backbone
 iron-router
