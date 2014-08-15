@@ -304,6 +304,7 @@ Template.add_answer.events({
 		Session.set('showAnswerDialog', false);
 		Session.set('answerId', null);
 		Questions.update(Session.get('questionId'), {$inc: {answers: 1}});
+		notifyAuthors(Session.get('questionId')); 
 	},
 	'click .edit': function (evt) {
 		Answers.update(Session.get('answerId'), {$set: {
@@ -384,6 +385,12 @@ var checkCanUserVote = function (votersFind, userId) {
 var getUserEmail = function (item) {
 	var user = Meteor.user();
 	return user.emails[0].address;
+};
+var notifyAuthors = function (questionId) {
+	var questionAuthor = Questions.find({_id: questionId}).fetch();
+	var answersAuthors = Answers.find({'question': questionId}).fetch();
+	console.log(questionAuthor);
+	console.log(answersAuthors);
 };
 var tagsString = function (tags) {
 	var tagsArray = [];
