@@ -350,6 +350,7 @@ Template.add_comment.events({
 			createdByEmail: getUserEmail(),
 			date: moment().format('MMMM Do YYYY, h:mm:ss a')
 			});
+//notifyCommentors(this._id);
 		Session.set('showCommentDialog', false);
 		Session.set('commentId', null);
 	},
@@ -391,6 +392,9 @@ var notifyAuthors = function (questionId) {
 	var answersAuthors = Answers.find({'question': questionId}).fetch();
 	console.log(questionAuthor);
 	console.log(answersAuthors);
+};
+var notifyCommentors = function (itemId) {
+	console.log(itemId);
 };
 var tagsString = function (tags) {
 	var tagsArray = [];
