@@ -350,7 +350,7 @@ Template.add_comment.events({
 			createdByEmail: getUserEmail(),
 			date: moment().format('MMMM Do YYYY, h:mm:ss a')
 			});
-//notifyCommentors(this._id);
+		notifyCommentors(Session.get('commentId'));
 		Session.set('showCommentDialog', false);
 		Session.set('commentId', null);
 	},
@@ -394,7 +394,11 @@ var notifyAuthors = function (questionId) {
 	console.log(answersAuthors);
 };
 var notifyCommentors = function (itemId) {
-	console.log(itemId);
+	//console.dir(itemId);
+	var questionAuthor = Questions.find({_id: itemId}).fetch();
+	var answersAuthors = Answers.find({_id: itemId}).fetch();
+	console.log(questionAuthor);
+	console.log(answersAuthors);
 };
 var tagsString = function (tags) {
 	var tagsArray = [];
