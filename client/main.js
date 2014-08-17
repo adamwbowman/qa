@@ -394,11 +394,19 @@ var notifyAuthors = function (questionId) {
 	console.log(answersAuthors);
 };
 var notifyCommentors = function (itemId) {
-	//console.dir(itemId);
 	var questionAuthor = Questions.find({_id: itemId}).fetch();
 	var answersAuthors = Answers.find({_id: itemId}).fetch();
 	console.log(questionAuthor);
 	console.log(answersAuthors);
+	sendEmail();
+};
+var sendEmail = function () {
+	Email.send({
+		from: 'adamwbowman@me.com',
+		to: 'adamwbowman@me.com',
+		subject: "That was easy",
+		text: "If you're reading this, sending an email through Meteor really was that easy"
+	  });
 };
 var tagsString = function (tags) {
 	var tagsArray = [];
