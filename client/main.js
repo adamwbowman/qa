@@ -143,8 +143,8 @@ Template.answers.events({
 		Session.set('answerId', this._id);
 	},
 	'click .deleteAnswer': function (evt) {
-		Answers.remove({_id: this._id});
-		Questions.update(Session.get('questionId'), {$inc: {answers: -1}});
+		var intQuestionId = Session.get('questionId');
+		Meteor.call('deleteAnswer', this._id, intQuestionId);
 	},
 	'click .mostVotes': function (evt) {
 		Session.set('sortResultsOrder', {'votes': -1});
@@ -180,7 +180,7 @@ Template.comments.events({
 		Session.set('commentId', this._id);
 	},
 	'click .deleteComment': function (evt) {
-		Comments.remove({_id: this._id});
+		Meteor.call('deleteComment', this._id);
 	}
 });
 
@@ -292,25 +292,16 @@ Template.add_answer.helpers({
 });
 Template.add_answer.events({
 	'click .save': function (evt) {
-		Answers.insert({
-			question: Session.get('questionId'),
-			content: $('.add-answer').val(),
-			votes: 0,
-			createdBy: Meteor.userId(),
-			createdByEmail: getUserEmail(),
-			voters: [],
-			date: moment().format('MMMM Do YYYY, h:mm:ss a')
-			});
+		var intQuestionId = Session.get('questionId');
+		var strContent = $('.add-answer').val();
+		Meteor.call('insertAnswer', intQuestionId, strContent);
 		Session.set('showAnswerDialog', false);
 		Session.set('answerId', null);
-		Questions.update(Session.get('questionId'), {$inc: {answers: 1}});
-		notifyAuthors(Session.get('questionId')); 
 	},
 	'click .edit': function (evt) {
-		Answers.update(Session.get('answerId'), {$set: {
-			content: $('.add-answer').val(),
-			date: moment().format('MMMM Do YYYY, h:mm:ss a')
-			}});
+		var intAnswerId = Session.get('answerId');
+		var strContent = $('.add-answer').val();
+		Meteor.call('editAnswer', intAnswerId, strContent);
 		Session.set('showAnswerDialog', false);
 		Session.set('editAnswer', false);
 		Session.set('answerId', null);
@@ -343,30 +334,24 @@ Template.add_comment.helpers({
 // Events
 Template.add_comment.events({
 	'click .save': function (evt) {
-		Comments.insert({
-			item: Session.get('commentId', this._id),
-			content: $('.add-comment').val(),
-			createdBy: Meteor.userId(),
-			createdByEmail: getUserEmail(),
-			date: moment().format('MMMM Do YYYY, h:mm:ss a')
-			});
-		notifyCommentors(Session.get('commentId'));
+		var intCommentId = Session.get('commentId');
+		var strContent = $('.add-comment').val();
+		Meteor.call('insertComment', intCommentId, strContent);
 		Session.set('showCommentDialog', false);
 		Session.set('commentId', null);
 	},
 	'click .edit': function (evt) {
-		Comments.update(Session.get('commentId'), {$set: {
-			content: $('.add-comment').val(),
-			date: moment().format('MMMM Do YYYY, h:mm:ss a')
-			}});
+		var intCommentId = Session.get('commentId');
+		var strContent = $('.add-comment').val();
+		Meteor.call('editComment', intCommentId, strContent);
 		Session.set('showCommentDialog', false);
 		Session.set('editComment', false);
 		Session.set('commentId', null);
 	},
 	'click .cancel': function (evt) {
-			Session.set('showCommentDialog', false);
-			Session.set('editComment', false);
-			Session.set('commentId', null);
+		Session.set('showCommentDialog', false);
+		Session.set('editComment', false);
+		Session.set('commentId', null);
 	}
 });
 
@@ -386,27 +371,6 @@ var checkCanUserVote = function (votersFind, userId) {
 var getUserEmail = function (item) {
 	var user = Meteor.user();
 	return user.emails[0].address;
-};
-var notifyAuthors = function (questionId) {
-	var questionAuthor = Questions.find({_id: questionId}).fetch();
-	var answersAuthors = Answers.find({'question': questionId}).fetch();
-	console.log(questionAuthor);
-	console.log(answersAuthors);
-};
-var notifyCommentors = function (itemId) {
-	var questionAuthor = Questions.find({_id: itemId}).fetch();
-	var answersAuthors = Answers.find({_id: itemId}).fetch();
-	console.log(questionAuthor);
-	console.log(answersAuthors);
-	//sendEmail();
-};
-var sendEmail = function () {
-	Email.send({
-		from: 'adamwbowman@me.com',
-		to: 'adamwbowman@me.com',
-		subject: "That was easy",
-		text: "If you're reading this, sending an email through Meteor really was that easy"
-	  });
 };
 var tagsString = function (tags) {
 	var tagsArray = [];
