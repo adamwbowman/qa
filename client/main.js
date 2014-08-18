@@ -96,16 +96,14 @@ Template.answers.events({
 		var userId = Meteor.userId();
 		var votersFind = Questions.findOne(this._id);
 		if (checkCanUserVote(votersFind, userId)) {
-			Questions.update(this._id, {$inc: {votes: 1}});
-			Questions.update(this._id, {$push: {voters: userId}});
+			Meteor.call('upVoteQuestion', this._id, userId);
 		}
 	},
 	'click #questions-arrow-down': function (evt) {
 		var userId = Meteor.userId();
 		var votersFind = Questions.findOne(this._id);
 		if (checkCanUserVote(votersFind, userId)) {
-			Questions.update(this._id, {$inc: {votes: -1}});
-			Questions.update(this._id, {$push: {voters: userId}});
+			Meteor.call('downVoteQuestion', this._id, userId);
 		}
 	},
 	'click .editQuestion': function (evt) {
@@ -125,16 +123,14 @@ Template.answers.events({
 		var userId = Meteor.userId();
 		var votersFind = Answers.findOne(this._id);
 		if (checkCanUserVote(votersFind, userId)) {
-			Answers.update(this._id, {$inc: {votes: 1}});
-			Answers.update(this._id, {$push: {voters: userId}});
+			Meteor.call('upVoteAnswer', this._id, userId);
 		}
 	},
 	'click #answers-arrow-down': function (evt) {
 		var userId = Meteor.userId();
 		var votersFind = Answers.findOne(this._id);
 		if (checkCanUserVote(votersFind, userId)) {
-			Answers.update(this._id, {$inc: {votes: -1}});
-			Answers.update(this._id, {$push: {voters: userId}});
+			Meteor.call('downVoteAnswer', this._id, userId);
 		}
 	},
 	'click .editAnswer': function (evt) {
@@ -233,7 +229,7 @@ Template.add_question.events({
 	'click .save': function (evt) {
 		var strTitle = $('#add-title').val();
 		var strContent = $('#add-content').val();
-		var strTags = $('#add-tags').val();
+		var strTags = tagsString($('#add-tags').val());
 		var blnSV = $('#cbSV').prop('checked');
 		var blnWBMS = $('#cbWBMS').prop('checked');
 		var blnTSM = $('#cbTSM').prop('checked');
@@ -245,23 +241,10 @@ Template.add_question.events({
 		Router.go('questions');
 	},
 	'click .edit': function (evt) {
-		/*
-		Questions.update(Session.get('questionId'), {$set: {
-			title: $('#add-title').val(),
-			content: $('#add-content').val(),
-			tags: tagsString($('#add-tags').val()),
-			SV: $('#cbSV').prop('checked'),
-			WBMS: $('#cbWBMS').prop('checked'),
-			TSM: $('#cbTSM').prop('checked'),
-			ASCADE: $('#cbASCADE').prop('checked'),
-			ICP: $('#cbICP').prop('checked'),
-			date: moment().format('MMMM Do YYYY, h:mm:ss a')
-			}});
-		*/
 		var intQuestionId = Session.get('questionId');
 		var strTitle = $('#add-title').val();
 		var strContent = $('#add-content').val();
-		var strTags = $('#add-tags').val();
+		var strTags = tagsString($('#add-tags').val());
 		var blnSV = $('#cbSV').prop('checked');
 		var blnWBMS = $('#cbWBMS').prop('checked');
 		var blnTSM = $('#cbTSM').prop('checked');
@@ -372,11 +355,6 @@ var checkCanUserVote = function (votersFind, userId) {
 		return true;				
 	}
 };
-var getUserEmail = function (item) {
-	var user = Meteor.user();
-	return user.emails[0].address;
-};
-/*
 var tagsString = function (tags) {
 	var tagsArray = [];
 	$.each(tags.split(","), function () {
@@ -384,4 +362,3 @@ var tagsString = function (tags) {
 	});
 	return _.uniq(tagsArray);
 };
-*/

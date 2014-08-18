@@ -8,7 +8,7 @@ Router.map(function() {
 	this.route('answers', { 
 		path: '/question/:questionId',
 		data: function() {
-			Questions.update(this.params.questionId, {$inc: {views: 1}});
+			Meteor.call('tallyViewQuestion', this.params.questionId);
 			Session.set('questionId', this.params.questionId); 
 		}
 	});

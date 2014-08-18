@@ -13,7 +13,7 @@ Meteor.publish('theComments', function (){
 
 
 //////////////////////////////////////////////////////////////////////////////////
-// Methods...
+// Meteor Methods...
 Meteor.methods({
 	// Questions
 	'insertQuestion': function (strTitle, strContent, strTags, blnSV, blnWBMS, blnTSM, blnASCADE, blnICP) {
@@ -26,7 +26,7 @@ Meteor.methods({
 			createdBy: Meteor.userId(),
 			createdByEmail: getUserEmail(),
 			voters: [],
-			tags: tagsString(strTags),
+			tags: strTags,
 			SV: blnSV,
 			WBMS: blnWBMS,
 			TSM: blnTSM,
@@ -39,7 +39,7 @@ Meteor.methods({
 		Questions.update(intQuestionId, {$set: {
 			title: strTitle,
 			content: strContent,
-			tags: tagsString(strTags),
+			tags: strTags,
 			SV: blnSV,
 			WBMS: blnWBMS,
 			TSM: blnTSM,
@@ -50,7 +50,18 @@ Meteor.methods({
 	},	
 	'deleteQuestion': function (intQuestionId) {
 		Questions.remove({_id: intQuestionId});
-	},	
+	},
+	'upVoteQuestion': function (intQuestionId, intUserId) {
+		Questions.update(intQuestionId, {$inc: {votes: 1}});
+		Questions.update(intQuestionId, {$push: {voters: intUserId}});
+	},
+	'downVoteQuestion': function (intQuestionId, intUserId) {
+		Questions.update(intQuestionId, {$inc: {votes: -1}});
+		Questions.update(intQuestionId, {$push: {voters: intUserId}});
+	},
+	'tallyViewQuestion': function (intQuestionId) {
+		Questions.update(intQuestionId, {$inc: {views: 1}});
+	},
 	// Answers
 	'insertAnswer': function (intQuestionId, strContent) {
 		Answers.insert({
@@ -75,6 +86,14 @@ Meteor.methods({
 		Answers.remove({_id: intAnswerId});
 		Questions.update(intQuestionId, {$inc: {answers: -1}});
 	},
+	'upVoteAnswer': function (intAnswerId, intUserId) {
+		Answers.update(intAnswerId, {$inc: {votes: 1}});
+		Answers.update(intAnswerId, {$push: {voters: intUserId}});
+	},
+	'downVoteAnswer': function (intAnswerId, intUserId) {
+		Answers.update(intAnswerId, {$inc: {votes: -1}});
+		Answers.update(intAnswerId, {$push: {voters: intUserId}});
+	},
 	// Comments
 	'insertComment': function (intCommentId, strContent) {
 		Comments.insert({
@@ -98,6 +117,8 @@ Meteor.methods({
 });
 
 
+//////////////////////////////////////////////////////////////////////////////////
+// Methods...
 var getUserEmail = function (item) {
 	var user = Meteor.user();
 	return user.emails[0].address;
@@ -122,14 +143,4 @@ var sendEmail = function () {
 		subject: "That was easy",
 		text: "If you're reading this, sending an email through Meteor really was that easy"
 	});
-};
-var tagsString = function (tags) {
-	return tags;
-	/*
-	var tagsArray = [];
-	_.each(tags.split(","), function () {
-		tagsArray.push(this);
-	});
-	return _.uniq(tagsArray);
-	*/
 };
