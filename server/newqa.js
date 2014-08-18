@@ -15,6 +15,42 @@ Meteor.publish('theComments', function (){
 //////////////////////////////////////////////////////////////////////////////////
 // Methods...
 Meteor.methods({
+	// Questions
+	'insertQuestion': function (strTitle, strContent, strTags, blnSV, blnWBMS, blnTSM, blnASCADE, blnICP) {
+		Questions.insert({
+			title: strTitle,
+			content: strContent,
+			votes: 0,
+			answers: 0,
+			views: 0,
+			createdBy: Meteor.userId(),
+			createdByEmail: getUserEmail(),
+			voters: [],
+			tags: tagsString(strTags),
+			SV: blnSV,
+			WBMS: blnWBMS,
+			TSM: blnTSM,
+			ASCADE: blnASCADE,
+			ICP: blnICP,
+			date: moment().format('MMMM Do YYYY, h:mm:ss a')
+		});
+	},	
+	'editQuestion': function (intQuestionId, strTitle, strContent, strTags, blnSV, blnWBMS, blnTSM, blnASCADE, blnICP) {
+		Questions.update(intQuestionId, {$set: {
+			title: strTitle,
+			content: strContent,
+			tags: tagsString(strTags),
+			SV: blnSV,
+			WBMS: blnWBMS,
+			TSM: blnTSM,
+			ASCADE: blnASCADE,
+			ICP: blnICP,
+			date: moment().format('MMMM Do YYYY, h:mm:ss a')
+		}});
+	},	
+	'deleteQuestion': function (intQuestionId) {
+		Questions.remove({_id: intQuestionId});
+	},	
 	// Answers
 	'insertAnswer': function (intQuestionId, strContent) {
 		Answers.insert({
@@ -85,5 +121,15 @@ var sendEmail = function () {
 		to: 'adamwbowman@me.com',
 		subject: "That was easy",
 		text: "If you're reading this, sending an email through Meteor really was that easy"
-	  });
+	});
+};
+var tagsString = function (tags) {
+	return tags;
+	/*
+	var tagsArray = [];
+	_.each(tags.split(","), function () {
+		tagsArray.push(this);
+	});
+	return _.uniq(tagsArray);
+	*/
 };

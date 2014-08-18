@@ -114,7 +114,7 @@ Template.answers.events({
 		Session.set('questionId', this._id);
 	},
 	'click .deleteQuestion': function (evt) {
-		Questions.remove({_id: this._id});
+		Meteor.call('deleteQuestion', this._id);
 		Router.go('questions');
 	},
 	'click .tag-search': function (evt) {
@@ -231,28 +231,21 @@ Template.add_question.helpers({
 // Events
 Template.add_question.events({
 	'click .save': function (evt) {
-		Questions.insert({
-			title: $('#add-title').val(),
-			content: $('#add-content').val(),
-			votes: 0,
-			answers: 0,
-			views: 0,
-			createdBy: Meteor.userId(),
-			createdByEmail: getUserEmail(),
-			voters: [],
-			tags: tagsString($('#add-tags').val()),
-			SV: $('#cbSV').prop('checked'),
-			WBMS: $('#cbWBMS').prop('checked'),
-			TSM: $('#cbTSM').prop('checked'),
-			ASCADE: $('#cbASCADE').prop('checked'),
-			ICP: $('#cbICP').prop('checked'),
-			date: moment().format('MMMM Do YYYY, h:mm:ss a')
-			});
+		var strTitle = $('#add-title').val();
+		var strContent = $('#add-content').val();
+		var strTags = $('#add-tags').val();
+		var blnSV = $('#cbSV').prop('checked');
+		var blnWBMS = $('#cbWBMS').prop('checked');
+		var blnTSM = $('#cbTSM').prop('checked');
+		var blnASCADE = $('#cbASCADE').prop('checked');
+		var blnICP = $('#cbICP').prop('checked');
+		Meteor.call('insertQuestion', strTitle, strContent, strTags, blnSV, blnWBMS, blnTSM, blnASCADE, blnICP);
 		Session.set('showQuestionDialog', false);
 		Session.set('questionId', null);
 		Router.go('questions');
 	},
 	'click .edit': function (evt) {
+		/*
 		Questions.update(Session.get('questionId'), {$set: {
 			title: $('#add-title').val(),
 			content: $('#add-content').val(),
@@ -264,6 +257,17 @@ Template.add_question.events({
 			ICP: $('#cbICP').prop('checked'),
 			date: moment().format('MMMM Do YYYY, h:mm:ss a')
 			}});
+		*/
+		var intQuestionId = Session.get('questionId');
+		var strTitle = $('#add-title').val();
+		var strContent = $('#add-content').val();
+		var strTags = $('#add-tags').val();
+		var blnSV = $('#cbSV').prop('checked');
+		var blnWBMS = $('#cbWBMS').prop('checked');
+		var blnTSM = $('#cbTSM').prop('checked');
+		var blnASCADE = $('#cbASCADE').prop('checked');
+		var blnICP = $('#cbICP').prop('checked');
+		Meteor.call('editQuestion', intQuestionId, strTitle, strContent, strTags, blnSV, blnWBMS, blnTSM, blnASCADE, blnICP);
 		Session.set('showQuestionDialog', false);
 		Session.set('editQuestion', false);
 	},
@@ -372,6 +376,7 @@ var getUserEmail = function (item) {
 	var user = Meteor.user();
 	return user.emails[0].address;
 };
+/*
 var tagsString = function (tags) {
 	var tagsArray = [];
 	$.each(tags.split(","), function () {
@@ -379,6 +384,4 @@ var tagsString = function (tags) {
 	});
 	return _.uniq(tagsArray);
 };
-
-
-
+*/
