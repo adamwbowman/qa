@@ -16,7 +16,7 @@ Meteor.publish('theComments', function (){
 // Meteor Methods...
 Meteor.methods({
 	// Questions
-	'insertQuestion': function (strTitle, strContent, strTags, blnSV, blnWBMS, blnTSM, blnASCADE, blnICP) {
+	'insertQuestion': function (strTitle, strContent, strTags) {
 		Questions.insert({
 			title: strTitle,
 			content: strContent,
@@ -27,24 +27,14 @@ Meteor.methods({
 			createdByEmail: getUserEmail(),
 			voters: [],
 			tags: strTags,
-			SV: blnSV,
-			WBMS: blnWBMS,
-			TSM: blnTSM,
-			ASCADE: blnASCADE,
-			ICP: blnICP,
 			date: moment().format('MMMM Do YYYY, h:mm:ss a')
 		});
 	},	
-	'editQuestion': function (intQuestionId, strTitle, strContent, strTags, blnSV, blnWBMS, blnTSM, blnASCADE, blnICP) {
+	'editQuestion': function (intQuestionId, strTitle, strContent, strTags) {
 		Questions.update(intQuestionId, {$set: {
 			title: strTitle,
 			content: strContent,
 			tags: strTags,
-			SV: blnSV,
-			WBMS: blnWBMS,
-			TSM: blnTSM,
-			ASCADE: blnASCADE,
-			ICP: blnICP,
 			date: moment().format('MMMM Do YYYY, h:mm:ss a')
 		}});
 	},	

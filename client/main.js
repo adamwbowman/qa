@@ -228,12 +228,7 @@ Template.add_question.events({
 		var strTitle = $('#add-title').val();
 		var strContent = $('#add-content').val();
 		var strTags = tagsString($('#add-tags').val());
-		var blnSV = $('#cbSV').prop('checked');
-		var blnWBMS = $('#cbWBMS').prop('checked');
-		var blnTSM = $('#cbTSM').prop('checked');
-		var blnASCADE = $('#cbASCADE').prop('checked');
-		var blnICP = $('#cbICP').prop('checked');
-		Meteor.call('insertQuestion', strTitle, strContent, strTags, blnSV, blnWBMS, blnTSM, blnASCADE, blnICP);
+		Meteor.call('insertQuestion', strTitle, strContent, strTags);
 		Session.set('showQuestionDialog', false);
 		Session.set('questionId', null);
 		Router.go('questions');
@@ -243,12 +238,7 @@ Template.add_question.events({
 		var strTitle = $('#add-title').val();
 		var strContent = $('#add-content').val();
 		var strTags = tagsString($('#add-tags').val());
-		var blnSV = $('#cbSV').prop('checked');
-		var blnWBMS = $('#cbWBMS').prop('checked');
-		var blnTSM = $('#cbTSM').prop('checked');
-		var blnASCADE = $('#cbASCADE').prop('checked');
-		var blnICP = $('#cbICP').prop('checked');
-		Meteor.call('editQuestion', intQuestionId, strTitle, strContent, strTags, blnSV, blnWBMS, blnTSM, blnASCADE, blnICP);
+		Meteor.call('editQuestion', intQuestionId, strTitle, strContent, strTags);
 		Session.set('showQuestionDialog', false);
 		Session.set('editQuestion', false);
 	},
