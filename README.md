@@ -14,17 +14,4 @@ If you're interested in working on this project, first grab Meteor here:
 
 Then clone the repo.
 
-## Requirements
-Q&As requires iron-router, which can be installed using meteorite
-
-First, install meteorite:
-```javascript
-	$ npm install -g meteorite
-```
-
-Then, install iron-router:
-```javascript
-	$ mrt add iron-router
-```
-
 From Meteor.com: "Meteor is an open-source platform for building top-quality web apps in a fraction of the time, whether you're an expert developer or just getting started."

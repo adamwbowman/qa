@@ -134,7 +134,7 @@ var notifyCommentors = function (itemId) {
 	var answersAuthors = Answers.find({_id: itemId}).fetch();
 	console.log(questionAuthor);
 	console.log(answersAuthors);
-	//sendEmail();
+	sendEmail();
 };
 var sendEmail = function () {
 	Email.send({

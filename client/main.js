@@ -1,8 +1,6 @@
 
 //////////////////////////////////////////////////////////////////////////////////
 // Session Management...
-// Variables
-Session.setDefault('titleDisplay', 'PE Q&amp;As');
 // Modal Dialogs
 Session.setDefault('showQuestionDialog', false);
 Session.setDefault('showAnswerDialog', false);
