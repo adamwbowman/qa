@@ -49,22 +49,18 @@
 				<h3>Add an Answer</h3>
 			{{/if}}
 		</div>
-		{{#if currentUser}}
-			<div class="modal-body">
-				<label>Answer</label>
-				<textarea id="add-answer" class="add-answer span5" rows="7">{{#each editAnswer}}{{{content}}}{{/each}}</textarea>
-			</div>
-			<div class="modal-footer">
-				<a class="btn cancel">Cancel</a>
-				{{#if toggleEditAnswer}}
-					<a class="btn btn-primary edit">Edit your Answer</a>
-				{{else}}
-					<a class="btn btn-primary save">Post your Answer</a>
-				{{/if}}
-			</div>
-		{{else}}
-			<div class="alert alert-danger" role="alert"><b>Oh snap!</b> You must sign in to add an answer.</div>
-		{{/if}}	
+		<div class="modal-body">
+			<label>Answer</label>
+			<textarea id="add-answer" class="add-answer span5" rows="7">{{#each editAnswer}}{{{content}}}{{/each}}</textarea>
+		</div>
+		<div class="modal-footer">
+			<a class="btn cancel">Cancel</a>
+			{{#if toggleEditAnswer}}
+				<a class="btn btn-primary edit">Edit your Answer</a>
+			{{else}}
+				<a class="btn btn-primary save">Post your Answer</a>
+			{{/if}}
+		</div>
 	</div>
 </template>
 
@@ -79,21 +75,17 @@
 				<h3>Add a Comment</h3>
 			{{/if}}
 		</div>
-		{{#if currentUser}}
-			<div class="modal-body">
-				<label>Comment</label>
-				<textarea id="add-comment" class="add-comment span5">{{#each editComment}}{{content}}{{/each}}</textarea>
-			</div>
-			<div class="modal-footer">
-				<a class="btn cancel">Cancel</a>
-				{{#if toggleEditComment}}
-					<a class="btn btn-primary edit">Edit your Comment</a>
-				{{else}}
-					<a class="btn btn-primary save">Post your Comment</a>
-				{{/if}}
-			</div>
-		{{else}}
-			<div class="alert alert-danger" role="alert"><b>Oh snap!</b> You must sign in to add a comment.</div>
-		{{/if}}		
+		<div class="modal-body">
+			<label>Comment</label>
+			<textarea id="add-comment" class="add-comment span5">{{#each editComment}}{{content}}{{/each}}</textarea>
+		</div>
+		<div class="modal-footer">
+			<a class="btn cancel">Cancel</a>
+			{{#if toggleEditComment}}
+				<a class="btn btn-primary edit">Edit your Comment</a>
+			{{else}}
+				<a class="btn btn-primary save">Post your Comment</a>
+			{{/if}}
+		</div>
 	</div>
 </template>

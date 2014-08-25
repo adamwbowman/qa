@@ -58,7 +58,7 @@ Meteor.methods({
 			question: intQuestionId,
 			content: strContent,
 			votes: 0,
-			createdBy: Meteor.userId(),
+			createdBy: (Meteor.userId() || 'anon'),
 			createdByEmail: getUserEmail(),
 			voters: [],
 			date: moment().format('MMMM Do YYYY, h:mm:ss a')
@@ -89,7 +89,7 @@ Meteor.methods({
 		Comments.insert({
 			item: intCommentId,
 			content: strContent,
-			createdBy: Meteor.userId(),
+			createdBy: (Meteor.userId() || 'anon'),
 			createdByEmail: getUserEmail(),
 			date: moment().format('MMMM Do YYYY, h:mm:ss a')
 		});
@@ -110,8 +110,12 @@ Meteor.methods({
 //////////////////////////////////////////////////////////////////////////////////
 // Methods...
 var getUserEmail = function (item) {
-	var user = Meteor.user();
-	return user.emails[0].address;
+	if (Meteor.user()) {
+		var user = Meteor.user();
+		return user.emails[0].address;
+	} else {
+		return 'anon'
+	}
 };
 var notifyAuthors = function (questionId) {
 	var questionAuthor = Questions.find({_id: questionId}).fetch();
