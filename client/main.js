@@ -346,7 +346,9 @@ var checkCanUserVote = function (votersFind, userId) {
 var tagsString = function (tags) {
 	var tagsArray = [];
 	$.each(tags.split(","), function () {
-		tagsArray.push($.trim(this));
+		if (this.length > 0) {
+			tagsArray.push($.trim(this));
+		}
 	});
 	return _.uniq(tagsArray);
 };
