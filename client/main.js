@@ -61,7 +61,7 @@ Template.questions.events({
 	},
 	'click .mostRecent': function (evt) {
 		Session.set('sortOrder', {'date': -1});
-	}
+	}	
 });
 Template.questions.rendered = function() {
 	console.log('questions rendered');

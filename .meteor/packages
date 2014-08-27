@@ -9,6 +9,6 @@ accounts-password
 accounts-ui
 bootstrap
 jquery
-iron-router
+cmather:iron-router@0.8.2
 email
 http
