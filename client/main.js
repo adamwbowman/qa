@@ -60,7 +60,7 @@ Template.questions.events({
 		Session.set('sortOrder', {'views': -1});
 	},
 	'click .mostRecent': function (evt) {
-		Session.set('sortOrder', {'date': -1});
+		Session.set('sortOrder', {'date': 1});
 	}	
 });
 Template.questions.rendered = function() {
