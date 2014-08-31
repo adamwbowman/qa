@@ -29,6 +29,7 @@ Meteor.methods({
 			tags: strTags,
 			date: moment().format('MMMM Do YYYY, h:mm:ss a')
 		});
+		notifyAll(strTitle, this._id);
 	},	
 	'editQuestion': function (intQuestionId, strTitle, strContent, strTags) {
 		Questions.update(intQuestionId, {$set: {
@@ -116,6 +117,13 @@ var getUserEmail = function (item) {
 	} else {
 		return 'anon'
 	}
+};
+var notifyAll = function(itemTitle) {
+	console.log(itemTitle);
+	//console.log(Meteor.users.find({}, {fields: {emails: 1, profile: 1}}).fetch());
+	var arrUsers = [];
+	arrUsers = Meteor.users.find({}, {emails: 1}).fetch();
+	console.dir(arrUsers);
 };
 var notifyAuthors = function (questionId) {
 	var questionAuthor = Questions.find({_id: questionId}).fetch();
