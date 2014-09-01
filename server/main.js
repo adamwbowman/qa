@@ -29,7 +29,7 @@ Meteor.methods({
 			tags: strTags,
 			date: moment().format('MMMM Do YYYY, h:mm:ss a')
 		});
-		notifyAll(strTitle, this._id);
+		notifyAll(strTitle);
 	},	
 	'editQuestion': function (intQuestionId, strTitle, strContent, strTags) {
 		Questions.update(intQuestionId, {$set: {
@@ -94,7 +94,7 @@ Meteor.methods({
 			createdByEmail: getUserEmail(),
 			date: moment().format('MMMM Do YYYY, h:mm:ss a')
 		});
-		notifyCommentors(intCommentId);
+		//notifyCommentors(intCommentId);
 	},
 	'editComment': function (intCommentId, strContent) {
 		Comments.update(intCommentId, {$set: {
@@ -119,30 +119,37 @@ var getUserEmail = function (item) {
 	}
 };
 var notifyAll = function(itemTitle) {
-	console.log(itemTitle);
-	//console.log(Meteor.users.find({}, {fields: {emails: 1, profile: 1}}).fetch());
-	var arrUsers = [];
-	arrUsers = Meteor.users.find({}, {emails: 1}).fetch();
-	console.dir(arrUsers);
+	itemTitle = ("New Question: " + itemTitle)
+	sendEmail('adamwbowman@me.com', 'adamwbowman@me.com', itemTitle);
 };
 var notifyAuthors = function (questionId) {
-	var questionAuthor = Questions.find({_id: questionId}).fetch();
+	var question = Questions.find({_id: questionId}).fetch();
+	var questionAuthor = question[0].createdByEmail;
+	var questionTitle = question[0].title;
 	var answersAuthors = Answers.find({'question': questionId}).fetch();
-	console.log(questionAuthor);
-	console.log(answersAuthors);
+	var arrAuthors = [];
+	answersAuthors.forEach(function (item) {
+		arrAuthors.push(item.createdByEmail);
+	});
+	arrAuthors = _.uniq(arrAuthors);
+	sendEmail(questionAuthor, arrAuthors, questionTitle);
 };
 var notifyCommentors = function (itemId) {
 	var questionAuthor = Questions.find({_id: itemId}).fetch();
 	var answersAuthors = Answers.find({_id: itemId}).fetch();
-	console.log(questionAuthor);
-	console.log(answersAuthors);
-	sendEmail();
+	console.log(getUserEmail(questionAuthor));
+	console.log(getUserEmail(answersAuthors));
 };
-var sendEmail = function () {
+var sendEmail = function (strTo, strFrom, strSubject, strText) {
+console.log("To:" + strTo);
+console.log("From:" + strFrom);
+console.log("Subject:" + strSubject);
+/*
 	Email.send({
-		from: 'adamwbowman@me.com',
-		to: 'adamwbowman@me.com',
-		subject: "That was easy",
-		text: "If you're reading this, sending an email through Meteor really was that easy"
+		from: strTo,
+		to: strFrom,
+		subject: strSubject,
+		text: (strText || "No body")
 	});
+*/
 };
