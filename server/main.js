@@ -119,20 +119,22 @@ var getUserEmail = function (item) {
 	}
 };
 var notifyAll = function(itemTitle) {
-	itemTitle = ("New Question: " + itemTitle)
-	sendEmail('adamwbowman@me.com', 'adamwbowman@me.com', itemTitle);
+	itemTitle = ("New Question: " + itemTitle);
+	sendEmail('adamwbowman@me.com', itemTitle);
 };
 var notifyAuthors = function (questionId) {
 	var question = Questions.find({_id: questionId}).fetch();
 	var questionAuthor = question[0].createdByEmail;
 	var questionTitle = question[0].title;
+	questionTitle = ("New Answer on: " + questionTitle);
 	var answersAuthors = Answers.find({'question': questionId}).fetch();
 	var arrAuthors = [];
+	arrAuthors.push(questionAuthor);
 	answersAuthors.forEach(function (item) {
 		arrAuthors.push(item.createdByEmail);
 	});
 	arrAuthors = _.uniq(arrAuthors);
-	sendEmail(questionAuthor, arrAuthors, questionTitle);
+	sendEmail(arrAuthors, questionTitle);
 };
 var notifyCommentors = function (itemId) {
 	var questionAuthor = Questions.find({_id: itemId}).fetch();
@@ -140,10 +142,12 @@ var notifyCommentors = function (itemId) {
 	console.log(getUserEmail(questionAuthor));
 	console.log(getUserEmail(answersAuthors));
 };
-var sendEmail = function (strTo, strFrom, strSubject, strText) {
-console.log("To:" + strTo);
-console.log("From:" + strFrom);
-console.log("Subject:" + strSubject);
+var sendEmail = function (arrTo, strSubject, strText) {
+arrTo.forEach(function (item) {
+	console.log("Mail sent to:" + item);
+	console.log("Subject:" + strSubject);
+});
+
 /*
 	Email.send({
 		from: strTo,
