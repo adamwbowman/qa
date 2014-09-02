@@ -45,6 +45,7 @@ Meteor.methods({
 	'upVoteQuestion': function (intQuestionId, intUserId) {
 		Questions.update(intQuestionId, {$inc: {votes: 1}});
 		Questions.update(intQuestionId, {$push: {voters: intUserId}});
+		notifyQuestionUpvote(intQuestionId);
 	},
 	'downVoteQuestion': function (intQuestionId, intUserId) {
 		Questions.update(intQuestionId, {$inc: {votes: -1}});
@@ -80,6 +81,7 @@ Meteor.methods({
 	'upVoteAnswer': function (intAnswerId, intUserId) {
 		Answers.update(intAnswerId, {$inc: {votes: 1}});
 		Answers.update(intAnswerId, {$push: {voters: intUserId}});
+		notifyAnswerUpvote(intAnswerId);
 	},
 	'downVoteAnswer': function (intAnswerId, intUserId) {
 		Answers.update(intAnswerId, {$inc: {votes: -1}});
@@ -110,6 +112,8 @@ Meteor.methods({
 
 //////////////////////////////////////////////////////////////////////////////////
 // Methods...
+
+// Using their Meteor userId, find their email address
 var getUserEmail = function (item) {
 	if (Meteor.user()) {
 		var user = Meteor.user();
@@ -118,15 +122,29 @@ var getUserEmail = function (item) {
 		return 'anon'
 	}
 };
+
+// Notify admin on all new quesitons
 var notifyAll = function(itemTitle) {
+
+	// !!! Future feaure - Find all admin
+	var arrAuthor = [];
+	arrAuthor.push('adamwbowman@me.com');
 	itemTitle = ("New Question: " + itemTitle);
-	sendEmail('adamwbowman@me.com', itemTitle);
+
+	// Send email
+	sendEmail(arrAuthor, itemTitle);
 };
+
+// Notify autors when their question receives an answer
 var notifyAuthors = function (questionId) {
+
+	// Get question info
 	var question = Questions.find({_id: questionId}).fetch();
 	var questionAuthor = question[0].createdByEmail;
 	var questionTitle = question[0].title;
 	questionTitle = ("New Answer regarding: " + questionTitle);
+
+	//Get answer info
 	var answersAuthors = Answers.find({'question': questionId}).fetch();
 	var arrAuthors = [];
 	arrAuthors.push(questionAuthor);
@@ -134,24 +152,29 @@ var notifyAuthors = function (questionId) {
 		arrAuthors.push(item.createdByEmail);
 	});
 	arrAuthors = _.uniq(arrAuthors);
+
+	// Send email
 	sendEmail(arrAuthors, questionTitle);
 };
+
+// Notify question or answer author when their post receives a comment
 var notifyCommentors = function (itemId) {
+
+	// Get question or answer info 
 	var question = Questions.find({_id: itemId}).fetch();
 	var answer = Answers.find({_id: itemId}).fetch();
 	if (question.length > '0') {
 		var questionAuthor = question[0].createdByEmail;
 		var questionTitle = question[0].title;
 		strTitle = ("New Comment regarding: " + questionTitle);
-		//console.log(questionTitle);
 	}
 	if (answer.length > '0') {
 		var answerAuthor = answer[0].createdByEmail;
 		var answerContent = answer[0].content;
 		strTitle = ("New Comment regarding: " + answerContent);
-		//console.log(answerContent);
 	}
 
+	// Get comment info
 	var commentAuthors = Comments.find({item: itemId}).fetch();
 	var arrAuthors = [];
 	commentAuthors.forEach(function (item) {
@@ -159,21 +182,38 @@ var notifyCommentors = function (itemId) {
 	});
 	arrAuthors = _.uniq(arrAuthors);
 
-	//console.log(itemId);
+	// Send email
 	sendEmail(arrAuthors, strTitle);
 };
-var sendEmail = function (arrTo, strSubject, strText) {
-arrTo.forEach(function (item) {
-	console.log("Mail sent to:" + item);
-	console.log("Subject:" + strSubject);
-});
 
-/*
-	Email.send({
-		from: strTo,
-		to: strFrom,
-		subject: strSubject,
-		text: (strText || "No body")
+var notifyAnswerUpvote = function (itemId) {
+	var answer = Answers.find({_id: itemId}).fetch();
+	var answerAuthor = [];
+	answerAuthor.push(answer[0].createdByEmail);
+	strTitle = ("Your Answer Received an Upvote");
+
+	// Send email
+	sendEmail(answerAuthor, strTitle);
+};
+
+var notifyQuestionUpvote = function (itemId) {
+	var question = Questions.find({_id: itemId}).fetch();
+	var questionAuthor = [];
+	questionAuthor.push(question[0].createdByEmail);
+	var questionTitle = question[0].title;
+	strTitle = ("Your Question, " + questionTitle + ", Received an Upvote");
+
+	// Send email
+	sendEmail(questionAuthor, strTitle);
+};
+
+var sendEmail = function (arrTo, strSubject) {
+	arrTo.forEach(function (item) {
+		Email.send({
+			from: 'admin@qa.meteor.com',
+			to: item,
+			subject: strSubject,
+			text: (strText || "No content")
+		});
 	});
-*/
 };
