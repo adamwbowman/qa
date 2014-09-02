@@ -94,7 +94,7 @@ Meteor.methods({
 			createdByEmail: getUserEmail(),
 			date: moment().format('MMMM Do YYYY, h:mm:ss a')
 		});
-		//notifyCommentors(intCommentId);
+		notifyCommentors(intCommentId);
 	},
 	'editComment': function (intCommentId, strContent) {
 		Comments.update(intCommentId, {$set: {
@@ -126,7 +126,7 @@ var notifyAuthors = function (questionId) {
 	var question = Questions.find({_id: questionId}).fetch();
 	var questionAuthor = question[0].createdByEmail;
 	var questionTitle = question[0].title;
-	questionTitle = ("New Answer on: " + questionTitle);
+	questionTitle = ("New Answer regarding: " + questionTitle);
 	var answersAuthors = Answers.find({'question': questionId}).fetch();
 	var arrAuthors = [];
 	arrAuthors.push(questionAuthor);
@@ -137,10 +137,30 @@ var notifyAuthors = function (questionId) {
 	sendEmail(arrAuthors, questionTitle);
 };
 var notifyCommentors = function (itemId) {
-	var questionAuthor = Questions.find({_id: itemId}).fetch();
-	var answersAuthors = Answers.find({_id: itemId}).fetch();
-	console.log(getUserEmail(questionAuthor));
-	console.log(getUserEmail(answersAuthors));
+	var question = Questions.find({_id: itemId}).fetch();
+	var answer = Answers.find({_id: itemId}).fetch();
+	if (question.length > '0') {
+		var questionAuthor = question[0].createdByEmail;
+		var questionTitle = question[0].title;
+		strTitle = ("New Comment regarding: " + questionTitle);
+		//console.log(questionTitle);
+	}
+	if (answer.length > '0') {
+		var answerAuthor = answer[0].createdByEmail;
+		var answerContent = answer[0].content;
+		strTitle = ("New Comment regarding: " + answerContent);
+		//console.log(answerContent);
+	}
+
+	var commentAuthors = Comments.find({item: itemId}).fetch();
+	var arrAuthors = [];
+	commentAuthors.forEach(function (item) {
+		arrAuthors.push(item.createdByEmail);
+	});
+	arrAuthors = _.uniq(arrAuthors);
+
+	//console.log(itemId);
+	sendEmail(arrAuthors, strTitle);
 };
 var sendEmail = function (arrTo, strSubject, strText) {
 arrTo.forEach(function (item) {
