@@ -51,6 +51,11 @@ Template.questions.helpers({
 		return Questions.find({}, {sort: Session.get('sortOrder')});
 	}
 });
+
+Handlebars.registerHelper("relativeDate", function(timestamp) {
+    return moment(new Date(timestamp)).fromNow();
+});
+
 // Events
 Template.questions.events({
 	'click .mostVotes': function (evt) {

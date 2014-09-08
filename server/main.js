@@ -207,7 +207,7 @@ var notifyQuestionUpvote = function (itemId) {
 	sendEmail(questionAuthor, strTitle);
 };
 
-var sendEmail = function (arrTo, strSubject) {
+var sendEmail = function (arrTo, strSubject, strText) {
 	arrTo.forEach(function (item) {
 		Email.send({
 			from: 'admin@qa.meteor.com',
