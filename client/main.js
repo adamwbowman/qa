@@ -52,10 +52,6 @@ Template.questions.helpers({
 	}
 });
 
-Handlebars.registerHelper("relativeDate", function(timestamp) {
-    return moment(new Date(timestamp)).fromNow();
-});
-
 // Events
 Template.questions.events({
 	'click .mostVotes': function (evt) {
@@ -333,6 +329,13 @@ Template.add_comment.events({
 		Session.set('editComment', false);
 		Session.set('commentId', null);
 	}
+});
+
+
+//////////////////////////////////////////////////////////////////////////////////
+// Helpers
+Handlebars.registerHelper("fromNow", function(date) {
+	return moment(date, 'MMMM Do YYYY, h:mm:ss a').fromNow();
 });
 
 

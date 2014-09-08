@@ -67,7 +67,7 @@
 					</div>
 					<div class="span8">
 						<h4>{{title}}</h4>
-						<p class="text-right"><small>Asked by {{createdByEmail}} on {{relative date}}</small></p>
+						<p class="text-right"><small>Asked by {{createdByEmail}}, {{fromNow date}}</small></p>
 					</div>
 				</div>
 			</td></tr>
@@ -97,7 +97,7 @@
 			</div>
 			<div class="span11">
 				<p class="text-left">{{{content}}}</p>
-				<p class="text-right"> - asked by {{createdByEmail}} on {{date}}</p>
+				<p class="text-right"> - asked by {{createdByEmail}}, {{fromNow date}}</p>
 				<p class="text-right">
 					{{#each tag.tags}}
 					<button type="button" class="btn btn-default btn-xs tag-search" value="{{this}}">{{{this}}}</button>
@@ -126,7 +126,7 @@
 			</div>
 			<div class="span11">
 				<p class="text-left">{{{content}}}</p>
-				<p class="text-right"> - answered by {{createdByEmail}} on {{date}}</p>
+				<p class="text-right"> - answered by {{createdByEmail}}, {{fromNow date}}</p>
 				{{#if canEdit}}
 					<p class="text-left"><small><a class="editAnswer">edit</a> | <a class="deleteAnswer">delete</a></small></p>
 				{{/if}}
@@ -181,7 +181,7 @@
 					</div>
 					<div class="span8">
 						<h4>{{title}}</h4>
-						<p class="text-right"><small>Asked by {{createdByEmail}} on {{date}}</small></p>
+						<p class="text-right"><small>Asked by {{createdByEmail}}, {{fromNow date}}</small></p>
 					</div>
 				</div>
 			</td></tr>
