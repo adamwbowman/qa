@@ -1,5 +1,11 @@
 
 //////////////////////////////////////////////////////////////////////////////////
+// Application Configs...
+// Set config values here:
+var strAdminEmail = 'admin@qa.meteor.com';
+
+
+//////////////////////////////////////////////////////////////////////////////////
 // Publishing...
 Meteor.publish('theQuestions', function (){
 	return Questions.find();
@@ -142,7 +148,7 @@ var notifyAuthors = function (questionId) {
 	var question = Questions.find({_id: questionId}).fetch();
 	var questionAuthor = question[0].createdByEmail;
 	var questionTitle = question[0].title;
-	questionTitle = ("New Answer regarding: " + questionTitle);
+	questionTitle = ("New Answer Regarding: " + questionTitle);
 
 	//Get answer info
 	var answersAuthors = Answers.find({'question': questionId}).fetch();
@@ -166,12 +172,12 @@ var notifyCommentors = function (itemId) {
 	if (question.length > '0') {
 		var questionAuthor = question[0].createdByEmail;
 		var questionTitle = question[0].title;
-		strTitle = ("New Comment regarding: " + questionTitle);
+		strTitle = ("New Comment Regarding: " + questionTitle);
 	}
 	if (answer.length > '0') {
 		var answerAuthor = answer[0].createdByEmail;
 		var answerContent = answer[0].content;
-		strTitle = ("New Comment regarding: " + answerContent);
+		strTitle = ("New Comment Regarding: " + answerContent);
 	}
 
 	// Get comment info
@@ -210,7 +216,7 @@ var notifyQuestionUpvote = function (itemId) {
 var sendEmail = function (arrTo, strSubject, strText) {
 	arrTo.forEach(function (item) {
 		Email.send({
-			from: 'admin@qa.meteor.com',
+			from: strAdminEmail,
 			to: item,
 			subject: strSubject,
 			text: (strText || "No content")
