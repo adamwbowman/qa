@@ -2,7 +2,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 // Application Configs...
 // Set config values here:
-Session.setDefault('titleDisplay', 'Q&As')
+var strTitleDisplay = 'Q&As';
 
 //////////////////////////////////////////////////////////////////////////////////
 // Session Management...
@@ -33,7 +33,7 @@ Meteor.subscribe('theComments');
 // NavBar...
 Template.navbar.helpers({
 	titleDisplay: function () {
-		return Session.get('titleDisplay');
+		return strTitleDisplay;
 	}
 });
 // Events

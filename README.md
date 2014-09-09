@@ -14,15 +14,17 @@ Then clone the repo.
 
 ## Configuration
 Client side configurations are at the beginning of the client/main.js here:
+- strTitleDisplay: Grey application title displayed in the heder is set here 
 
 ```javascript
 /////////////////////////////////////////////////
 // Application Configs...
 // Set config values here:
-Session.setDefault('titleDisplay', 'Q&As')
+var strTitleDisplay = 'Q&As';
 ```
 
 Server side configurations are at the beginning of the server/main.js here:
+- strAdminEmail: All notification email are sent from this address
 
 ```javascript
 /////////////////////////////////////////////////
