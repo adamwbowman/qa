@@ -13,6 +13,9 @@
 				<a class="brand" href="/">{{titleDisplay}}</a>
 				<ul class="nav">
 					<li class="active"><a href="/">Home</a></li>
+					{{#if currentUser}}
+						<li class="active"><a href="/users">Users</a></li>
+					{{/if}}
 					<li><button class="btn btn-primary addQuestion">Ask a Question</button></li>
 				</ul>
 				<div style="float: right">
@@ -184,6 +187,30 @@
 						<p class="text-right"><small>Asked by {{createdByEmail}}, {{fromNow date}}</small></p>
 					</div>
 				</div>
+			</td></tr>
+			{{/each}}
+		</tbody></table>
+	</div>
+</template>
+
+<template name="users">
+	{{> navbar}}
+	<div class="container">
+		<div class="tabbable pull-right">
+			<ul class="nav nav-pills">
+				<li class="mostVotes active"><a href="#tab1" data-toggle="tab">aadfasfasf</a></li>
+				<li class="mostViews"><a href="#tab2" data-toggle="tab">mdfvsdvfsd</a></li>
+				<li class="mostRecent"><a href="#tab3" data-toggle="tab">most recent</a></li>
+			</ul>
+		</div>
+		<table class="table table-hover"><tbody>
+			{{#each user}}
+			<tr><td class="span12title" onclick="location.href='/user/{{_id}}';">
+				id: {{_id}} <br />
+				username: {{username}} <br />
+				emails: {{emails}} <br />
+				created at: {{createdAt}} <br />
+				name: {{profile}}
 			</td></tr>
 			{{/each}}
 		</tbody></table>

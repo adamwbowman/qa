@@ -16,6 +16,9 @@ Meteor.publish('theAnswers', function (){
 Meteor.publish('theComments', function (){
 	return Comments.find();
 });
+Meteor.publish('allUsers', function (){
+	return Meteor.users.find();
+});
 
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -33,7 +36,7 @@ Meteor.methods({
 			createdByEmail: getUserEmail(),
 			voters: [],
 			tags: strTags,
-			date: moment().format('MMMM Do YYYY, h:mm:ss a')
+			date: moment()
 		});
 		notifyAll(strTitle);
 	},	
@@ -42,7 +45,7 @@ Meteor.methods({
 			title: strTitle,
 			content: strContent,
 			tags: strTags,
-			date: moment().format('MMMM Do YYYY, h:mm:ss a')
+			date: moment()
 		}});
 	},	
 	'deleteQuestion': function (intQuestionId) {
@@ -69,7 +72,7 @@ Meteor.methods({
 			createdBy: (Meteor.userId() || 'anon'),
 			createdByEmail: getUserEmail(),
 			voters: [],
-			date: moment().format('MMMM Do YYYY, h:mm:ss a')
+			date: moment()
 		});
 		Questions.update(intQuestionId, {$inc: {answers: 1}});
 		notifyAuthors(intQuestionId); 
@@ -77,7 +80,7 @@ Meteor.methods({
 	'editAnswer': function (intAnswerId, strContent) {
 		Answers.update(intAnswerId, {$set: {
 			content: strContent,
-			date: moment().format('MMMM Do YYYY, h:mm:ss a')
+			date: moment()
 		}});
 	},
 	'deleteAnswer': function (intAnswerId, intQuestionId) {
@@ -100,14 +103,14 @@ Meteor.methods({
 			content: strContent,
 			createdBy: (Meteor.userId() || 'anon'),
 			createdByEmail: getUserEmail(),
-			date: moment().format('MMMM Do YYYY, h:mm:ss a')
+			date: moment()
 		});
 		notifyCommentors(intCommentId);
 	},
 	'editComment': function (intCommentId, strContent) {
 		Comments.update(intCommentId, {$set: {
 			content: strContent,
-			date: moment().format('MMMM Do YYYY, h:mm:ss a')
+			date: moment()
 		}});		
 	},
 	'deleteComment': function (intCommentId) {

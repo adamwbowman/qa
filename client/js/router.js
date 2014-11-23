@@ -15,4 +15,7 @@ Router.map(function() {
 	this.route('results', {
 		path: '/results'
 	});
+	this.route('users', {
+		path: '/users'
+	});
 });

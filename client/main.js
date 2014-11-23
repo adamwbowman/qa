@@ -28,6 +28,8 @@ Session.setDefault('editComment', false);
 Meteor.subscribe('theQuestions');
 Meteor.subscribe('theAnswers');
 Meteor.subscribe('theComments');
+Meteor.subscribe('allUsers');
+
 
 //////////////////////////////////////////////////////////////////////////////////
 // NavBar...
@@ -213,6 +215,25 @@ Template.results.rendered = function() {
 
 
 //////////////////////////////////////////////////////////////////////////////////
+// Users
+Template.users.helpers({
+	user: function () {
+		return Meteor.users.find({});
+	}
+});
+
+// Events
+Template.users.events({
+	'click .mostRecent': function (evt) {
+		Session.set('sortOrder', {'date': -1});
+	}	
+});
+Template.users.rendered = function() {
+	console.log('users rendered');
+}; 
+
+
+//////////////////////////////////////////////////////////////////////////////////
 // Modals...
 // Add Quesiton
 Template.modals.helpers({
@@ -341,6 +362,10 @@ Template.add_comment.events({
 // Helpers
 Handlebars.registerHelper("fromNow", function(date) {
 	return moment(date, 'MMMM Do YYYY, h:mm:ss a').fromNow();
+});
+
+Handlebars.registerHelper("unix", function(date) {
+	return moment(date, x)
 });
 
 
