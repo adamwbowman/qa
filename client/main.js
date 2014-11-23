@@ -364,10 +364,6 @@ Handlebars.registerHelper("fromNow", function(date) {
 	return moment(date, 'MMMM Do YYYY, h:mm:ss a').fromNow();
 });
 
-Handlebars.registerHelper("unix", function(date) {
-	return moment(date, x)
-});
-
 
 //////////////////////////////////////////////////////////////////////////////////
 // Methods
